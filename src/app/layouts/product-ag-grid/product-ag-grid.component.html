@@ -1,0 +1,12 @@
+
+<div class="row">
+    <div class="col-12">
+        <ag-grid-angular class="ag-theme-alpine" style="height:1000px;width: 100%;"
+        [rowData]="productList"
+    
+        [pagination]="true"
+        [paginationPageSize]="paginationPageSize"
+        [columnDefs]="colDefs" 
+        [defaultColDef]="defaultColDef"/>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="card-table">
+    <div class="cart-product">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th> Name</th>
+                    <th>UserId</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Phone</th>
+                     <!-- <th>Total</th> -->
+                    <th><a routerLink="/userss/new-user"><button>ADDUser</button></a></th> 
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of userList ">
+                    
+                    <td style="width: 5%;">{{user.id}}</td>
+                    <td style="width: 10%;">{{user.name.firstname}}</td>
+                   
+                    <td style="width: 10%;">{{user.username}}</td>
+
+                    <td style="width: 18%;">{{user.email}}</td>
+                    
+                    <th style="width: 10%;">{{user.password}}</th>
+                    <td style="width: 10%;">{{user.phone}}</td>
+                    <td style="width: 10%;"></td>
+                    <td><a  [routerLink]="['/user', user.id]" (click)="onViewUser(user)">View</a></td>
+                    <td>
+                        <button class="btn btn-danger" (click)="onDeleteUser(user.id)"><i class="fas fa-trash"></i></button>
+                    </td>   
+                </tr>
+                <!-- <tr>
+                    <td colspan="4"></td>
+                    <td><button class="btn btn-danger" >Empty Carts</button></td>
+                    <td><button routerLink="/products" class="btn btn-primary">Shop more</button></td>
+                    <td><button class="btn btn-success">Check out</button></td>
+                    <td><strong> </strong></td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+</div>
