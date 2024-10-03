@@ -24,8 +24,8 @@ export class MenDataComponent implements OnInit {
 
 product:any
 
-routee=inject(ActivatedRoute)
-constructor(private catService:CatagoryService,
+// routee=inject(ActivatedRoute)
+constructor(private catService:CatagoryService, private route:ActivatedRoute,
 
   private cart:CartService,
   private apiProduct:ApiProductsService
@@ -34,21 +34,22 @@ constructor(private catService:CatagoryService,
 }
 
 ngOnInit() {
-this.viewProduct()
   
-  this.routee.params.subscribe({next:params => {
+  this.route.params.subscribe({next:params => {
       this.getCata(params['category']);
       }
   });
+    this.viewProduct()
+
  
   }
 
 
   viewProduct(){
    
-   const productId=this.routee.snapshot.paramMap.get('id')
+   const productId= this.route.snapshot.paramMap.get('id')
 
-    this.apiProduct.getSingleProduct(productId!).subscribe(res=>{
+    this.apiProduct.getSingleProduct(productId! ).subscribe(res=>{
       console.log(res);
       console.log(productId);
       this.product=res

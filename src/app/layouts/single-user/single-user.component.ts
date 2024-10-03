@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { CommonModule, KeyValuePipe } from '@angular/common';
+
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UserList } from '../../Model/user.model';
-import { map } from 'rxjs';
+
+import { AuthLoginService } from '../../Services/auth-login.service';
+import { User } from '../../Model/user.model';
 
 @Component({
   selector: 'app-single-user',
@@ -13,22 +13,17 @@ import { map } from 'rxjs';
   styleUrl: './single-user.component.css'
 })
 export class SingleUserComponent implements OnInit{
-user:any
-private route=inject(ActivatedRoute)
-private httpC=inject(HttpClient)
+public userData:any
+
+private authUser=inject(AuthLoginService)
 
 ngOnInit(): void {
 
-
- const userId=this.route.snapshot.paramMap.get('id');
- this.httpC.get<any>(`https://fakestoreapi.com/users/${userId}`).subscribe(res=>{
-  console.log(res);
-    this.user=res
- })
-
-
-
-
-
+this.authUser.getLoginUser().subscribe({next:(res)=>{
+  
+  this.userData=res
+  
+  console.log(this.userData );
+},error:(err)=>{console.log(err);}})
 }
 }

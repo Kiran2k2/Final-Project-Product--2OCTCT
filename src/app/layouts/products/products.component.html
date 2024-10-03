@@ -7,32 +7,17 @@
   <h3><span style="color: rgb(253, 140, 159);"> Our</span> Products</h3>
 </div>
 
-<button class="btn btn-primary" (click)="openShowAddForm()">Add New Product</button>
+<button class="btn btn-primary" style="margin-left: 240px;" (click)="openShowAddForm()">Add New Product</button>
 
 <div class="container">
   
   <div *ngFor="let product of productList" class="product-container">
     <div class="card">
+      <button style="width: 100px;" class="btn btn-danger" (click)=" ondeleteProduct(product.id)">Delete</button>
+
       <div class="imgBx">
         <img loading="lazy" [src]="product.thumbnail" alt="Product Image" />
-        <ul class="action">
-          <li>
-            <i class="fa fa-heart" aria-hidden="true"></i>
-            <span>Add to wishlist</span>
-          </li>
-          <li>
-            <a (click)="addToCart(product)">
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-              <span>Add to cart</span>
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="['/product', product.id]">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-              <span style="font-size: 16px;">View Details</span>
-            </a>
-          </li>
-        </ul>
+     
       </div>
       <div class="content">
         <div class="productName">{{ product.title }}</div>
@@ -45,7 +30,20 @@
             <i class="fa fa-star" aria-hidden="true"></i>
             <i class="fa fa-star" aria-hidden="true"></i>
           </div>
+
+        
+
         </div>
+       <div style="display: flex;justify-content: space-between; margin-top: 20px;">
+        <button class="viewButton" [routerLink]="['/product', product.id]">
+          <!-- <i class="fa fa-eye" aria-hidden="true"></i> -->
+          <span style="font-size: 16px;">View</span>
+        </button>
+        <button class="addTo" (click)="addToCart(product)">
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+          <span>Add to cart</span>
+        </button>
+       </div>
       </div>
     </div>
   </div>

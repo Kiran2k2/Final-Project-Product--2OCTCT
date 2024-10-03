@@ -4,6 +4,8 @@ import { Product } from '../../Model/products.model';
 import { ColDef } from 'ag-grid-community';
 import { AgGridAngular } from 'ag-grid-angular';
 
+
+
 @Component({
   standalone:true,
   imports:[AgGridAngular],
@@ -13,12 +15,13 @@ import { AgGridAngular } from 'ag-grid-angular';
 })
 export class ProductAgGridComponent implements OnInit {
   productList: Product[] = [];
+  gridApi:any
   paginationPageSize: number = 10; // Set the number of rows per page
-
+ 
   constructor(private apiProducts: ApiProductsService) {}
 
   colDefs: ColDef[] = [
-    { field: 'id', headerName: 'Product ID' },
+    { field: 'id', headerName: 'Product ID',cellStyle:{'margin-right':'10px'} },
     { field: 'title', headerName: 'Product Name' },
     {
       field: 'thumbnail',
@@ -27,14 +30,28 @@ export class ProductAgGridComponent implements OnInit {
     },
     { field: 'price', headerName: 'Price' },
     {
-      headerName: 'Actions',
+      headerName: 'Edit',
       cellRenderer: () => {
         return `
           <button class="btn-edit">Edit</button>
+         
+        `;
+      },
+      onCellClicked: (params: any) => this.onEditRow(params.data)
+    },{
+
+      headerName: 'Delete',
+      cellRenderer: () => {
+        return `
+         
           <button class="btn-delete"><i class="fas fa-trash"></i></button>
         `;
       },
-      onCellClicked: (params: any) => this.onActionClick(params) // Handle edit/delete actions
+      onCellClicked: (params: any) => this.onDeleteRow(params.data.id)
+
+
+
+
     }
   ];
 
@@ -48,7 +65,7 @@ export class ProductAgGridComponent implements OnInit {
     this.onGetProducts();
   }
 
-  // Fetch products from the API
+  
   onGetProducts() {
     this.apiProducts.getAllProduct().subscribe({
       next: (res) => {
@@ -59,25 +76,14 @@ export class ProductAgGridComponent implements OnInit {
       }
     });
   }
-
-  // Handle actions for edit and delete buttons
-  onActionClick(params: any) {
-    const product = params.data;
-    if (params.event.target.classList.contains('btn-delete')) {
-      this.onDeleteRow(product.id);
-    } else if (params.event.target.classList.contains('btn-edit')) {
-      this.onEditRow(product);
-    }
-  }
-
-  // Delete a product
-  onDeleteRow(productId:any) {
-    this.apiProducts.deleteProduct(productId).subscribe(() => {
-      this.productList = this.productList.filter(product => product.id !== productId);
+  onDeleteRow(productId:string) {
+    this.apiProducts.deleteProduct(productId).subscribe((res) => {
+      this.productList = this.productList.filter((product)=>product.id!==productId);
+      
     });
   }
 
-  // Edit a product (basic prompt)
+  
   onEditRow(product: Product) {
     const newTitle = prompt('Enter new product name:', product.title);
     const newPrice = prompt('Enter new product price:', product.price.toString());
@@ -86,9 +92,15 @@ export class ProductAgGridComponent implements OnInit {
       product.title = newTitle;
       product.price = parseFloat(newPrice);
 
-      this.apiProducts.updateProduct(product.id, product).subscribe(() => {
-        this.productList = this.productList.map(p => (p.id === product.id ? product : p));
-      });
+  this.gridApi.updateRowData({update:[product]})
+      }
     }
+ 
+
+
+
+  OnGridReady(params:any){
+   this.gridApi=params.api
   }
+
 }

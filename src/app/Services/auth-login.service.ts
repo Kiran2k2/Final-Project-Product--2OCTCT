@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { compileNgModule } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import {  Observable } from 'rxjs';
 
@@ -32,8 +33,13 @@ export class AuthLoginService {
   }
 
   getLoginUser():Observable<any>{
-   return this.loginHttp.get(this.authUserUrl,{withCredentials:true})
+    const token=localStorage.getItem('auth-token')
+    
+    const headers=new HttpHeaders({
+        'Authorization':`Bearer ${token}`
+    })
 
+    return this.loginHttp.get(this.authUserUrl,{headers,withCredentials:false})
 
   }
 }

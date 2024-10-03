@@ -1,27 +1,14 @@
-<!-- <div *ngIf="cart">
 
-
-    <h1>{{cart.id}}</h1>
-    <h3>{{cart.userId}}</h3>
-</div>
-
-<div *ngFor="let p of cart.products">
-<h3>{{p.price}}</h3>
-<img src="{{p.thumbnail}}" alt="">
-</div>
- -->
  <div *ngIf="cart" class="top-header">
     <h3>Cart ID: {{cart.id}}</h3>
     <h3>User ID: {{cart.userId}}</h3>
   </div>
   
-  <!-- Product Cards -->
   <div class="product-card-container">
     <div *ngFor="let p of cart.products" class="product-card">
-      <!-- Product Image -->
+      
       <img src="{{p.thumbnail}}" alt="{{p.title}}" class="product-image">
   
-      <!-- Product Details -->
       <div class="product-details">
         <h3>{{p.title}}</h3>
         <h4>{{p.price | currency}}</h4>

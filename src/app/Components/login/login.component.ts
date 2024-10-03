@@ -20,6 +20,7 @@ export class LoginComponent {
   constructor(private authService:AuthLoginService){
 
     this.accessToken = this.authService.getToken();
+
     this.loginForm= new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -43,8 +44,9 @@ if(this.loginForm.valid){
       console.log(username,password);
       console.log('Login successfully',resp);
 
-      const token= resp;
-      localStorage.setItem('auth-token',token);
+      // const token= resp;
+      // localStorage.setItem('auth-token',resp);
+      this.authService.storeToken(resp.accessToken)
       this.router.navigateByUrl('/products')
       this.loginForm.reset()
     },

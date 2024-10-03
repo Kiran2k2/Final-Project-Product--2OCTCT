@@ -19,7 +19,8 @@ export class ProductComponent {
   route=inject(ActivatedRoute)
 product:any;
 updateTitle:string='';
-// updatePrice:number=0;
+updatePrice:number=0;
+updateDescription:string=''
 isEditing:boolean=false;
 productId=this.route.snapshot.paramMap.get('id')
 
@@ -37,7 +38,8 @@ productId=this.route.snapshot.paramMap.get('id')
         console.log(response  );
         this.product = response;
         this.updateTitle=this.product.title;
-        // this.updatePrice=this.product.price
+        this.updatePrice=this.product.price;
+        this.updateDescription=this.product.description;
       });
   }
 

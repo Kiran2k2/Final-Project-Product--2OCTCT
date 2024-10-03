@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ApiProductsService } from '../../Services/api-products.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../header/header.component";
 import { HomeComponent } from "../home/home.component";
 import { CatagoriesComponent } from "../catagories/catagories.component";
-import { Router, RouterLink } from '@angular/router';
+import {  Router, RouterLink } from '@angular/router';
 import { FooterComponent } from "../footer/footer.component";
 import { CartService } from '../../Services/cart.service';
-import { Product, ProductResponse } from '../../Model/products.model';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
@@ -18,12 +17,14 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
-   public productList:Product[]=[];
+  
+  
+  public productList:any[]=[];
 
    public limit: number = 14; 
    public skip: number = 0; 
    public totalProducts: number = 0;
-
+   
 
    newAddProduct = {          
     title: '',
@@ -34,16 +35,8 @@ export class ProductsComponent implements OnInit {
 
   showAddForm:boolean=false
 
-
-
    constructor(private apiProds:ApiProductsService, private router:Router, private cart:CartService){
    }
-
-  
-
-
-
-
   ngOnInit(): void {
 
     // this.allProductsList()
@@ -84,7 +77,8 @@ export class ProductsComponent implements OnInit {
  toAddMoreData(){
   this.apiProds.addNewProduct(this.newAddProduct).subscribe({next:(res)=>{
 
-    this.productList=res.newAddProduct;
+    // this.productList=res
+    this.productList.push(res)
     console.log("added",res);
 
 
@@ -102,6 +96,16 @@ export class ProductsComponent implements OnInit {
     this.router.navigate(['/product', product.id]);
   }
 
+
+  ondeleteProduct(productId:string){
+ this.apiProds.deleteProduct(productId).subscribe({next:(res)=>{
+  this.productList=this.productList.filter((pro)=>pro.id!==productId)
+  alert(`Product${productId} deleted successfully`)
+  // console.log("lkjhgf");
+ }})
+
+    
+  }
 
   addToCart(product:any){
     this.cart.addToCart(product)

@@ -1,7 +1,6 @@
 import { CartProduct } from './../../Model/cart.model';
 import { Component, inject, OnInit } from '@angular/core';
 import { AllCartServiceService } from '../../Services/all-cart-service.service';
-import { Carts } from '../../Model/cart.model';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -31,7 +30,6 @@ ngOnInit(): void {
 
 fetchAllCartData(){
   this.apiService.getAllCartProducts().subscribe({next:(res)=>{
-
    this.cartProduct=res.carts
    console.log(res.carts)
   },error:(err)=>{
@@ -56,7 +54,7 @@ onDeleteCart(cartId:number){
 
 onAddProductCart(){
   this.apiService.getAddCartData(this.userId,this.productsData).subscribe({next:(res)=>{
-    console.log("responsedADD" ,res)
+    console.log("respADD" ,res)
 this.showAddForm=true;
 this.fetchAllCartData()
 
@@ -69,10 +67,6 @@ this.fetchAllCartData()
 toggleAddProductForm() {
   this.showAddForm = !this.showAddForm;
 }
-
-
-
-
 onUpdateData(cartId: number, productId: number, quantity: number){
 
   this.apiService.getUpdateTheCart(cartId,[{id:productId,quanty:quantity}]).subscribe({next:(res)=>{
@@ -80,8 +74,6 @@ onUpdateData(cartId: number, productId: number, quantity: number){
   },error:(err)=>{console.log(err)}})
 }
 
-addNewProductField() {
-  this.cartProduct.push({id:0,quantity:0})
-}
+
 
 }

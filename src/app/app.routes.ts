@@ -7,16 +7,18 @@ import { ProductComponent } from './layouts/product/product.component';
 import { CartComponent } from './layouts/cart/cart.component';
 import { CatagoriesComponent } from './layouts/catagories/catagories.component';
 import { MenDataComponent } from './layouts/catagories/men-data/men-data.component';
-import { ElectronicsComponent } from './layouts/catagories/electronics/electronics.component';
 
 import { SingleUserComponent } from './layouts/single-user/single-user.component';
-import { SignupComponent } from './Components/signup/signup.component';
 
-import { SearchProductComponent } from './layouts/search-product/search-product.component';
+
 import { ProductAgGridComponent } from './layouts/product-ag-grid/product-ag-grid.component';
 import { AllCartProductsComponent } from './layouts/all-cart-products/all-cart-products.component';
 import { SingleCartComponent } from './layouts/all-cart-products/single-cart/single-cart.component';
 import { authGuard } from './auth.guard';
+import { PnfComponent } from './Components/pnf/pnf.component';
+
+
+
 
 
 export const routes: Routes = [{
@@ -25,23 +27,24 @@ export const routes: Routes = [{
     pathMatch:'full'
 },
 {
-    path:'login',
-    component:LoginComponent
+    path:'login',component:LoginComponent
 },
+
+
 {
-    path:'products',
-    component:ProductsComponent
-
-
+    path:'products',component:ProductsComponent,
+   canActivate:[authGuard]
 
  },
  {
-    path:'product/:id',
-    component:ProductComponent
+    path:'product/:id',component:ProductComponent
  },
  {
-   path:'cartList',
-   component:CartComponent,
+   path:"productss/:category",
+   component:MenDataComponent
+ },
+ {
+   path:'cartList',component:CartComponent,
    canActivate:[authGuard]
  },
 {
@@ -53,19 +56,12 @@ component:AllCartProductsComponent,
  },
  {
    path:"allCartList/:id", component:SingleCartComponent,
-   // canActivate:[authGuard]
-
-    
- },
- 
- 
- 
- {
-   path:"productss/:category",
-   component:MenDataComponent
+   // canActivate:[authGuard] 
  },{
-  path:'productts/search',component:SearchProductComponent
+   path:'access-user',
+   component:SingleUserComponent
  },
+ 
 {
    path:'users-list',
    component:ProductAgGridComponent
@@ -78,7 +74,7 @@ component:AllCartProductsComponent,
 
 {
    path:'**',
-   component:ElectronicsComponent
+   component:PnfComponent  
 }
 
 ];
